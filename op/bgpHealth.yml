@@ -1,0 +1,17 @@
+---
+### ---------------------------------------------
+### bgpHealth.yml
+###    BGP checks I find helpful
+### ---------------------------------------------
+
+BGPSummaryTable:
+  rpc: get-bgp-summary-information
+  item: bgp-peer
+  key: peer-address
+  view:  BGPSummaryView
+
+
+BGPSummaryView:
+  fields:
+    peer: peer-address
+    state: peer-state
