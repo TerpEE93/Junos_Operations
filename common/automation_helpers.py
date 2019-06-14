@@ -5,6 +5,7 @@ automation_helpers.py
 """
 
 from netaddr import *
+from getpass import getpass
 from ipaddress import ip_address
 from common.devices import *
 
@@ -69,7 +70,8 @@ def validatePassword(password):
     Returns a string.
     """
     while (password is None):
-        password = input("Password: ")
+        #password = input("Password: ")
+        password = getpass("Password: ")
 
     return password
 

@@ -1,3 +1,5 @@
+Junos Operations
+----------------
 Just a place to put some modestly-helpful operational scripts that leverage
 the Junos PyEZ framework.  Use them if you like, or don't, it's cool.
 
@@ -17,6 +19,13 @@ The usual warnings and disclaimers apply:
 
 
 Current scripts:
+
+check_bgp.py
+------------
+This script will display helpful information about the current state
+of BGP on the target device.  Maybe you'll find something in the output
+to help you troubleshoot any non-Established sessions.
+
 
 check_lldp.py
 -------------
