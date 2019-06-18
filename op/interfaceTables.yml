@@ -1,0 +1,22 @@
+---
+### ---------------------------------------------
+### interfaceTables.yml
+###    How many ways can we "show interfaces"
+### ---------------------------------------------
+
+intTerseTable:
+  rpc: get-interface-information
+  args:
+    terse: True
+  item: physical-interface/logical-interface
+  key: name
+  view:  intTerseView
+
+
+intTerseView:
+  fields:
+    ifl: name
+    admin: admin-status
+    state: oper-status
+    address: address-family/interface-address/ifa-local
+

@@ -5,56 +5,26 @@ junos101.py
 """
 
 from jnpr.junos import Device
-from ipaddress import *
-from getpass import *
+from op.interfaceTables import *
 
-
-def getIPcreds():
+def checkLocalIFL(d, ipa):
     """
-    Prompts the user for a hostname, username, and password
-    Returns the values in a list
+    Given a device object (d) and valid IP address (ipa), find and return
+    the interface on the device that holds that address and it's state.  If there is no
+    interface on the device with that IP address, return a value of None.
     """
-    host_ip = ""
-    username = ""
-    userpass = ""
+    target_ifl = None
+    target_state = None
 
-    while (host_ip == ""):
-        try:
-            host_ip = ip_address(input("\nEnter IP address of device to check: "))
-        except ValueError:
-            print("That does not appear to be a valid IPv4 or IPv6 address.\n")
+    ifTable = intTerseTable(d)
+    ifTable.get()
 
-    while (username == ""):
-        username = input("Username: ")
+    for ifl in ifTable:
+        if (ifl.address):
+            address = str(ifl.address).split("/")[0]
 
-    while (userpass == ""):
-        userpass = getpass()
+            if (address == ipa):
+                target_ifl = ifl.ifl
+                target_state = ifl.state
 
-    return ([str(host_ip), username, userpass])
-
-
-# Opening connections
-def jopen(hosts, username, userpass):
-    openHosts = {}
-
-    for name, ip in hosts.items():
-        devName = Device(host=ip, user=username, password=userpass)
-
-        try:
-            devName.open()
-            openHosts.update({name: devName})
-
-        except ConnectionError as err:
-            print(err)
-            print(err._orig)
-
-    return openHosts
-
-
-# Closing connections
-def jclose(hostsOpened):
-    for host in hostsOpened:
-        host.close()
-
-    return
-
+    return [target_ifl, target_state]
