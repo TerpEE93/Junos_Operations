@@ -20,6 +20,12 @@ The usual warnings and disclaimers apply:
 
 Current scripts:
 
+op_tools.py
+-----------
+This is the front-end for the other tools listed here.  It provides a simple,
+menu-driven user interface for the tool suite.
+
+
 check_bgp.py
 ------------
 This script will display helpful information about the current state
@@ -48,3 +54,4 @@ This script will locate the source of a MAC address on a switch.  If the
 MAC address shows up on a local port, the script reports the host port
 associated with the MAC address.  If the MAC address shows up on a VTEP
 interface, then the script just reports that.
+
