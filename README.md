@@ -54,4 +54,3 @@ This script will locate the source of a MAC address on a switch.  If the
 MAC address shows up on a local port, the script reports the host port
 associated with the MAC address.  If the MAC address shows up on a VTEP
 interface, then the script just reports that.
-
