@@ -1,0 +1,43 @@
+---
+### ---------------------------------------------
+### bgpHealth.yml
+###    BGP checks I find helpful
+### ---------------------------------------------
+
+BGPSummaryTable:
+  rpc: get-bgp-summary-information
+  item: bgp-peer
+  key: peer-address
+  view:  BGPSummaryView
+
+
+BGPSummaryView:
+  fields:
+    peer: peer-address
+    peer_as: peer-as
+    state: peer-state
+    uptime: elapsed-time
+
+
+BGPNeighborTable:
+  rpc: get-bgp-neighbor-information
+  item: bgp-peer
+  key: peer-address
+  view: BGPNeighborView
+
+
+BGPNeighborView:
+  fields:
+    peer_address: peer-address
+    peer_as: peer-as
+    peer_rid: peer-id
+    peer_group: peer-group
+    type: peer-type
+    nlri: bgp-option-information/address-families
+    local_address: local-address
+    local_ifl: local-interface-name
+    local_as: local-as
+    state: peer-state
+    last_state: last-state
+    last_event: last-event
+    last_error: last-error

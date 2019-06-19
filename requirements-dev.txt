@@ -1,0 +1,6 @@
+ipython
+pylint
+setuptools
+pip
+wheel
+autopep8

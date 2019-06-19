@@ -1,0 +1,4 @@
+
+        [console_scripts]
+        fabric_op=junos_common_operations.op_tools:main
+    
