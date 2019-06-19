@@ -62,7 +62,7 @@ if (__name__ == "__main__"):
     user = validateUser(args.user)
     password = validatePassword(args.password)
 
-    target = Device(host = dev_ip, user = user, password = password)
+    d = Device(host = dev_ip, user = user, password = password)
 
     try:
         d.open()
@@ -72,7 +72,7 @@ if (__name__ == "__main__"):
         print("\nError: {0}".format(err))
 
     if (d.connected):
-        findMAC(target, mac_addr)
-        target.close()
+        findMAC(d, mac_addr)
+        d.close()
 
 # C'est tout, mes amis...
