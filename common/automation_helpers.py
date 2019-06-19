@@ -7,6 +7,7 @@ automation_helpers.py
 from netaddr import *
 from getpass import getpass
 from ipaddress import ip_address
+from jnpr.junos import Device
 from common.devices import *
 
 
@@ -54,10 +55,10 @@ def validateUser(user):
     """
     Just checks to make sure we have something that looks like a username.
 
-    Expects a string (or None).
+    Expects a string.
     Returns a string.
     """
-    while (user is None):
+    while (user == ""):
         user = input("Username: ")
 
     return user
@@ -66,10 +67,10 @@ def validatePassword(password):
     """
     Just checks to make sure we have something that looks like a password.
 
-    Expects a string (or None).
+    Expects a string.
     Returns a string.
     """
-    while (password is None):
+    while (password == ""):
         #password = input("Password: ")
         password = getpass("Password: ")
 
@@ -93,6 +94,28 @@ def matchDevice(model):
 
     return dev_type
 
+
+def openDevice(ip_address, user, password):
+    """
+    Takes an IP address, username, and password, and attempts to open a
+    connection to the target device.  Returns a Device object if successful.
+    """
+    ipa = validateIP(ip_address)
+    usr = validateUser(user)
+    pwd = validatePassword(password)
+
+    d = Device(host = ipa, user = usr, password = pwd)
+
+    try:
+        d.open()
+    except ConnectionError as err:
+        print("\nCan't connect to device: {0}".format(err))
+        return None
+    except Exception as err:
+        print("\nError: {0}".format(err))
+        return None
+
+    return d
 
 
 # END

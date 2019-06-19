@@ -90,10 +90,16 @@ if (__name__ == "__main__"):
 
     target = Device(host = dev_ip, user = user, password = password)
 
-    target.open()
+    try:
+        d.open()
+    except ConnectionError as err:
+        print("\nCan't connect to device: {0}".format(err))
+    except Exception as err:
+        print("\nError: {0}".format(err))
     
-    checkBGP(target)
-    target.close()
+    if (d.connected):
+        checkBGP(target)
+        target.close()
 
 
 # END

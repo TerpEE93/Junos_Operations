@@ -23,16 +23,17 @@ def findMAC(d, mac_addr):
     print("\nSearching for MAC address {} on {}...".format(mac_addr, str(d)))
     print("This device appears to be a {}.".format(str(d.facts['model'] )))
 
-    with d as dev:
-        eth_table = L2NG_EthernetSwitchingTable(dev)
-        eth_table.get(address = mac_addr)
+    #with d as dev:
+    eth_table = L2NG_EthernetSwitchingTable(d)
+    eth_table.get(address = mac_addr)
 
     for mac in eth_table:
         if (mac.mac_address == mac_addr):
             mac_found = True
 
             if (mac.interface.startswith("vtep")):
-                print("\nFound MAC address {} on a VTEP, not locally.\n".format(mac_addr))
+                print("\nFound MAC address {} on a VTEP, not locally.".format(mac_addr))
+                print("Active source is reported as {}.\n".format(mac.active_source))
             else:
                 print("\nMAC address {} is on port {}.\n".format(mac_addr, mac.interface))
 
@@ -63,9 +64,15 @@ if (__name__ == "__main__"):
 
     target = Device(host = dev_ip, user = user, password = password)
 
-    target.open()
-    
-    findMAC(target, mac_addr)
-    target.close()
+    try:
+        d.open()
+    except ConnectionError as err:
+        print("\nCan't connect to device: {0}".format(err))
+    except Exception as err:
+        print("\nError: {0}".format(err))
+
+    if (d.connected):
+        findMAC(target, mac_addr)
+        target.close()
 
 # C'est tout, mes amis...
