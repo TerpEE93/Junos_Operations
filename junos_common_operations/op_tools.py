@@ -49,17 +49,26 @@ def drawMenu(context, menu_dict, dev_ip, username, password):
     return
 
 
+def waitForInput():
+    """
+    Does what it says, it waits for input from the user.
+    That is all...
+    """
+
+    input("\nPress [Enter] to return to the menu...")
+
+
 def main():
-    admin_dict = { "d": "Set/change target device",
-                   "u": "Set/change username",
-                   "p": "Set/change password",
-                   "o": "Open connection to device",
-                   "q": "Quit this application"}
+    admin_dict = { "1": "Set/change target device",
+                   "2": "Set/change username",
+                   "3": "Set/change password",
+                   "4": "Open connection to device",
+                   "Q": "Quit this application"}
 
     oper_dict = { "1": "Find MAC address on a switch/fabric",
                   "2": "Check BGP health of a network device",
                   "3": "Validate \"VC\" cabling of a two-member EVPN fabric",
-                  "c": "Close connection to device and return to Admin Menu"}
+                  "C": "Close connection to device and return to Admin Menu"}
 
     choice = ""
     mac_addr = ""
@@ -89,19 +98,19 @@ def main():
             drawMenu(context, admin_dict, target, username, password)
             choice = str(input("Please make a selection: "))
 
-            if (choice == "d"):
+            if (choice == "1"):
                 target = ""
                 target = validateIP(target)
 
-            elif (choice == "u"):
+            elif (choice == "2"):
                 username = ""
                 username = validateUser(username)
 
-            elif (choice =="p"):
+            elif (choice =="3"):
                 password = ""
                 password = validatePassword(password)
 
-            elif (choice == "o"):
+            elif (choice == "4"):
                 target = validateIP(target)
                 username = validateUser(username)
                 password = validatePassword(password)
@@ -113,7 +122,7 @@ def main():
                         context = "operations"
                         print("\nConnected to {}...".format(dev))
 
-            elif (choice == "q"):
+            elif (choice == "q" or choice == "Q"):
                 exit()
 
             else:
@@ -123,7 +132,7 @@ def main():
             drawMenu(context, oper_dict, target, username, password)
             choice = str(input("Please make a selection: "))
         
-            if (choice == "c"):
+            if (choice == "c" or choice =="C"):
 
                 if (dev):
                     if (dev.connected):
@@ -137,14 +146,18 @@ def main():
                 mac_addr = ""
                 mac_addr = validateMAC(mac_addr)
                 findMAC(dev, mac_addr)
+                waitForInput()
 
             elif (choice == "2"):
                 checkBGP(dev)
+                waitForInput()
 
             elif (choice == "3"):
                 checkVCLinks(dev)
+                waitForInput()
 
-            input("\nPress [Enter] to return to Operations Menu...")
+            else:
+                pass
 
 
 

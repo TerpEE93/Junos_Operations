@@ -34,13 +34,15 @@ def checkVCLinks(d):
         lldp.get()
 
         for port in lldp:
-            if (port in switch_type.vc_ports):
-                print("{} has neighbor {} on node {}".format(port.local_if, port.remote_if, port.remote_dev))
+            if (port.local_if in switch_type.vc_ports):
+                if (not port.remote_if.startswith("ae")):
 
-                if (port.local_if != port.remote_if):
-                    print("\n*** Cabling Error ***")
-                    print("{} should connect to {} on node {}\n".format(port.local_if, port.local_if, port.remote_dev))
-    
+                    if (port.local_if != port.remote_if):
+                        print("\n*** Cabling Error ***")
+                        print("{} should connect to {} on node {}".format(port.local_if, port.local_if, port.remote_dev))
+
+                    print("{} has neighbor {} on node {}\n".format(port.local_if, port.remote_if, port.remote_dev))
+
     else:
         print("Can't check LLDP on unidentified switch type.\n")
 
